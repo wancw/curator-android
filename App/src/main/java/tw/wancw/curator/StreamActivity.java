@@ -1,4 +1,4 @@
-package tw.wancw.harem;
+package tw.wancw.curator;
 
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
