@@ -2,7 +2,6 @@ package tw.wancw.curator;
 
 import android.app.Activity;
 import android.database.DataSetObserver;
-import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
@@ -14,8 +13,6 @@ import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
 import com.nostra13.universalimageloader.core.assist.PauseOnScrollListener;
-
-import java.util.Arrays;
 
 import tw.wancw.curator.widget.MeiZiCardAdapter;
 
