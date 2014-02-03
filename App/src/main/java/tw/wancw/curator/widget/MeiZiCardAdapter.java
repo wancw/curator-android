@@ -16,8 +16,8 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
-import tw.wancw.curator.api.MeiZiCard;
 import tw.wancw.curator.R;
+import tw.wancw.curator.api.MeiZiCard;
 
 public class MeiZiCardAdapter extends BaseAdapter {
 
