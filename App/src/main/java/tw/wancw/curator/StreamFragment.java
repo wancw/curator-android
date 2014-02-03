@@ -1,6 +1,7 @@
 package tw.wancw.curator;
 
 import android.app.Activity;
+import android.content.Context;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
@@ -8,6 +9,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AbsListView;
 import android.widget.ListView;
+import android.widget.Toast;
 
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
@@ -131,6 +133,13 @@ public class StreamFragment extends Fragment {
             cardsView.removeFooterView(loadingFooter);
 
             loading = false;
+        }
+
+        @Override
+        public void OnFailure(String message) {
+            cardsView.removeFooterView(loadingFooter);
+            loading = false;
+            Toast.makeText(getActivity(), "Error: " + message, Toast.LENGTH_LONG).show();
         }
     }
 }
