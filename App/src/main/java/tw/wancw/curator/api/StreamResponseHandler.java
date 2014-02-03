@@ -51,19 +51,28 @@ class StreamResponseHandler extends JsonHttpResponseHandler {
 
     @Override
     public void onFailure(int statusCode, Header[] headers, Throwable e, JSONObject errorResponse) {
-        Log.d("Curator/API/Stream", "failure (object)");
+        Log.d("Curator/API/Stream", "failure (object)\n" +
+            "Status Code: " + statusCode + "\n" +
+            "Exception: " + e
+        );
         // TODO call handler.onFailure();
     }
 
     @Override
     public void onFailure(int statusCode, Header[] headers, Throwable e, JSONArray errorResponse) {
-        Log.d("Curator/API/Stream", "failure (array)");
+        Log.d("Curator/API/Stream", "failure (array)" +
+            "Status Code: " + statusCode + "\n" +
+            "Exception: " + e
+        );
         // TODO call handler.onFailure();
     }
 
     @Override
     public void onFailure(int statusCode, Header[] headers, Throwable e, String errorResponse) {
-        Log.d("Curator/API/Stream", "failure (string)");
+        Log.d("Curator/API/Stream", "failure (string)" +
+            "Status Code: " + statusCode + "\n" +
+            "Exception: " + e
+        );
         // TODO call handler.onFailure();
     }
 
