@@ -15,11 +15,15 @@ public class CuratorApi {
         this.token = token;
     }
 
-    public void stream(MeiZiCardsResponseHandler handler) {
+    public void stream(final MeiZiCardsResponseHandler handler) {
+        stream(1, handler);
+    }
+
+    public void stream(final int page, final MeiZiCardsResponseHandler handler) {
         final String path = "stream/";
         RequestParams params = new RequestParams();
         params.put("token", token);
-        params.put("page", 1);
+        params.put("page", String.valueOf(page));
         client.get(API_END_POINT + path, params, new StreamResponseHandler(handler));
     }
 }
