@@ -73,7 +73,7 @@ public class StreamFragment extends Fragment {
         cardsView.removeFooterView(loadingFooter);
 
         cardsView.setOnScrollListener(new ListViewOnScrollListenerBroadcaster(
-            new PauseOnScrollListener(loader, true, true),
+//            new PauseOnScrollListener(loader, true, true),
             new LoadMoreTrigger()
         ));
 
