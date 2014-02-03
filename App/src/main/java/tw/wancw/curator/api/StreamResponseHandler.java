@@ -39,14 +39,15 @@ class StreamResponseHandler extends JsonHttpResponseHandler {
 
             handler.onSuccess(Collections.unmodifiableList(Arrays.asList(cards)));
         } catch (JSONException e) {
-            // TODO call handler.onFailure();
+            handler.OnFailure(e.getMessage());
         }
     }
 
     @Override
     public void onSuccess(int statusCode, Header[] headers, JSONArray response) {
         Log.d("Curator/API/Stream", "success (array)");
-        // TODO call handler.onFailure();
+
+        handler.OnFailure("Invalid response");
     }
 
     @Override
@@ -55,7 +56,8 @@ class StreamResponseHandler extends JsonHttpResponseHandler {
             "Status Code: " + statusCode + "\n" +
             "Exception: " + e
         );
-        // TODO call handler.onFailure();
+
+        handler.OnFailure(e.getMessage());
     }
 
     @Override
@@ -64,7 +66,8 @@ class StreamResponseHandler extends JsonHttpResponseHandler {
             "Status Code: " + statusCode + "\n" +
             "Exception: " + e
         );
-        // TODO call handler.onFailure();
+
+        handler.OnFailure(e.getMessage());
     }
 
     @Override
@@ -73,7 +76,8 @@ class StreamResponseHandler extends JsonHttpResponseHandler {
             "Status Code: " + statusCode + "\n" +
             "Exception: " + e
         );
-        // TODO call handler.onFailure();
+
+        handler.OnFailure(e.getMessage());
     }
 
 }
