@@ -31,7 +31,7 @@ class StreamResponseHandler extends JsonHttpResponseHandler {
             JSONArray results = response.getJSONArray("results");
 
             final int resultsLength = results.length();
-            final MeiZiCard[] cards = new MeiZiCard[results.length()];
+            final MeiZiCard[] cards = new MeiZiCard[resultsLength];
             for (int i = 0; i < resultsLength; ++i) {
                 JSONObject result = results.getJSONObject(i);
                 cards[i] = new MeiZiCard(result.getString("name"), result.getString("image"));
