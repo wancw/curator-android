@@ -1,10 +1,10 @@
-package tw.wancw.curator;
+package tw.wancw.curator.api;
 
 public class MeiZiCard {
     private final String caption;
     private final String imageUrl;
 
-    MeiZiCard(String caption, String imageUrl) {
+    public MeiZiCard(String caption, String imageUrl) {
         this.caption = caption;
         this.imageUrl = imageUrl;
     }

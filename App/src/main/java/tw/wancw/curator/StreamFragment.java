@@ -4,19 +4,31 @@ import android.app.Activity;
 import android.database.DataSetObserver;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ListView;
 
+import com.loopj.android.http.AsyncHttpClient;
+import com.loopj.android.http.AsyncHttpResponseHandler;
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
 import com.nostra13.universalimageloader.core.assist.PauseOnScrollListener;
 
+import org.apache.http.Header;
+
+import java.util.Collection;
+
+import tw.wancw.curator.api.CuratorApi;
+import tw.wancw.curator.api.MeiZiCard;
+import tw.wancw.curator.api.MeiZiCardsResponseHandler;
 import tw.wancw.curator.widget.MeiZiCardAdapter;
 
 public class StreamFragment extends Fragment {
+
+    private static final CuratorApi api = new CuratorApi(BuildConfig.CURATOR_API_TOKEN);
 
     private MeiZiCardAdapter adapter;
     private ImageLoader loader;
@@ -67,6 +79,13 @@ public class StreamFragment extends Fragment {
     @Override
     public void onStart() {
         super.onStart();
-        (new LoadMeiZiTask(adapter)).execute();
+
+        api.stream(new MeiZiCardsResponseHandler() {
+            @Override
+            public void onSuccess(Collection<MeiZiCard> cards) {
+                Log.d("Curator/Stream", "cards loaded.");
+                adapter.add(cards);
+            }
+        });
     }
 }

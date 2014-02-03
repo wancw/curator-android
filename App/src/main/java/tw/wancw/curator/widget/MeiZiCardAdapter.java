@@ -13,9 +13,10 @@ import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.assist.SimpleImageLoadingListener;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 
-import tw.wancw.curator.MeiZiCard;
+import tw.wancw.curator.api.MeiZiCard;
 import tw.wancw.curator.R;
 
 public class MeiZiCardAdapter extends BaseAdapter {
@@ -77,7 +78,7 @@ public class MeiZiCardAdapter extends BaseAdapter {
         return view;
     }
 
-    public void add(List<MeiZiCard> cards) {
+    public void add(Collection<MeiZiCard> cards) {
         this.cards.addAll(cards);
         notifyDataSetChanged();
     }
