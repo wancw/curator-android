@@ -4,7 +4,9 @@ Curator-Android
 [小海嚴選](http://curator.im/) Android client
 --------------------------------------------
 
-* 還在努力開發中，歡迎 feature/pull request。
+[![Get it on Google Play](https://developer.android.com/images/brand/en_generic_rgb_wo_45.png)](https://play.google.com/store/apps/details?id=tw.wancw.curator)
+
+還在努力開發中，歡迎 feature/pull request。
 
 審查砲彈
 -------
@@ -12,5 +14,5 @@ Curator-Android
 
 License
 -------
-Copyright (c) 2014 wancw
+Copyright (c) 2014 WanCW
 Licensed under the MIT license.
