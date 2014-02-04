@@ -24,6 +24,11 @@ import tw.wancw.widget.ListViewOnScrollListenerBroadcaster;
 
 public class MeiZiCardsFragment extends Fragment {
 
+    public static final String PARAM_SOURCE_TYPE = "source_type";
+
+    public static final int SOURCE_STREAM = 1;
+    public static final int SOURCE_GIRL_OF_THE_DAY = 2;
+
     private static final CuratorApi api = new CuratorApi(BuildConfig.CURATOR_API_TOKEN);
 
     private ImageLoader loader;
