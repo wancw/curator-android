@@ -26,4 +26,16 @@ public class CuratorApi {
         params.put("page", String.valueOf(page));
         client.get(API_END_POINT + path, params, new StreamResponseHandler(handler));
     }
+
+    public void girlOfTheDay(final MeiZiCardsResponseHandler handler) {
+        stream(1, handler);
+    }
+
+    public void girlOfTheDay(final int page, final MeiZiCardsResponseHandler handler) {
+        final String path = "girl_of_the_day/";
+        RequestParams params = new RequestParams();
+        params.put("token", token);
+        params.put("page", String.valueOf(page));
+        client.get(API_END_POINT + path, params, new GirlOfTheDayResponseHandler(handler));
+    }
 }
