@@ -8,7 +8,7 @@ Curator-Android
 
 審查砲彈
 -------
-![](http://i.imgur.com/VZZQKQc.png) ![](http://i.imgur.com/oUUjnzy.png)
+![](http://i.imgur.com/VZZQKQc.png)&nbsp;![](http://i.imgur.com/oUUjnzy.png)
 
 License
 -------
