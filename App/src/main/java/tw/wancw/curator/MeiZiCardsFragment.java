@@ -1,7 +1,6 @@
 package tw.wancw.curator;
 
 import android.app.Activity;
-import android.content.Context;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
@@ -14,7 +13,6 @@ import android.widget.Toast;
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
-import com.nostra13.universalimageloader.core.assist.PauseOnScrollListener;
 
 import java.util.Collection;
 
@@ -24,7 +22,7 @@ import tw.wancw.curator.api.MeiZiCardsResponseHandler;
 import tw.wancw.curator.widget.MeiZiCardAdapter;
 import tw.wancw.widget.ListViewOnScrollListenerBroadcaster;
 
-public class StreamFragment extends Fragment {
+public class MeiZiCardsFragment extends Fragment {
 
     private static final CuratorApi api = new CuratorApi(BuildConfig.CURATOR_API_TOKEN);
 
@@ -36,7 +34,7 @@ public class StreamFragment extends Fragment {
 
     protected PaginatedStreamLoader streamLoader = new PaginatedStreamLoader();
 
-    public StreamFragment() {
+    public MeiZiCardsFragment() {
         // Required empty public constructor
     }
 
@@ -61,7 +59,7 @@ public class StreamFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View rootView = inflater.inflate(R.layout.fragment_stream, container, false);
+        View rootView = inflater.inflate(R.layout.fragment_meizi_cards, container, false);
 
         loadingFooter = inflater.inflate(R.layout.view_load_more, null);
 
