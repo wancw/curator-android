@@ -33,6 +33,7 @@ public class MeiZiCardsFragment extends Fragment {
     protected View loadingFooter;
 
     protected PaginatedStreamLoader streamLoader = new PaginatedStreamLoader();
+    protected PaginatedGirlOfTheDayLoader girlOfTheDayLoader = new PaginatedGirlOfTheDayLoader();
 
     public MeiZiCardsFragment() {
         // Required empty public constructor
@@ -81,7 +82,7 @@ public class MeiZiCardsFragment extends Fragment {
     @Override
     public void onStart() {
         super.onStart();
-        streamLoader.loadNextPage();
+        girlOfTheDayLoader.loadNextPage();
     }
 
     private class LoadMoreTrigger implements AbsListView.OnScrollListener {
@@ -118,6 +119,46 @@ public class MeiZiCardsFragment extends Fragment {
 
             lastPage = lastPage + 1;
             api.stream(lastPage, this);
+        }
+
+        @Override
+        public void onSuccess(Collection<MeiZiCard> cards) {
+            if (cards.size() > 0) {
+                adapter.add(cards);
+            } else {
+                noMoreData = true;
+            }
+
+            cardsView.removeFooterView(loadingFooter);
+
+            loading = false;
+        }
+
+        @Override
+        public void OnFailure(String message) {
+            cardsView.removeFooterView(loadingFooter);
+            loading = false;
+            Toast.makeText(getActivity(), "Error: " + message, Toast.LENGTH_LONG).show();
+        }
+    }
+
+    private class PaginatedGirlOfTheDayLoader implements MeiZiCardsResponseHandler {
+
+        private int lastPage = 0;
+        private boolean loading = false;
+        private boolean noMoreData = false;
+
+        public void loadNextPage() {
+            if (loading || noMoreData) {
+                return;
+            }
+
+            loading = true;
+
+            cardsView.addFooterView(loadingFooter);
+
+            lastPage = lastPage + 1;
+            api.girlOfTheDay(lastPage, this);
         }
 
         @Override
