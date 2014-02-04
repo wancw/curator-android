@@ -37,8 +37,7 @@ public class MeiZiCardsFragment extends Fragment {
     protected ListView cardsView;
     protected View loadingFooter;
 
-    protected PaginatedStreamLoader streamLoader = new PaginatedStreamLoader();
-    protected PaginatedGirlOfTheDayLoader girlOfTheDayLoader = new PaginatedGirlOfTheDayLoader();
+    protected PaginatedLoader cardsLoader;
 
     public MeiZiCardsFragment() {
         // Required empty public constructor
@@ -81,13 +80,21 @@ public class MeiZiCardsFragment extends Fragment {
             new LoadMoreTrigger()
         ));
 
+        Bundle arguments = getArguments();
+        int sourceType = arguments.getInt(PARAM_SOURCE_TYPE);
+        if (sourceType == SOURCE_STREAM) {
+            cardsLoader = new PaginatedStreamLoader();
+        } else {
+            cardsLoader = new PaginatedGirlOfTheDayLoader();
+        }
+
         return rootView;
     }
 
     @Override
     public void onStart() {
         super.onStart();
-        girlOfTheDayLoader.loadNextPage();
+        cardsLoader.loadNextPage();
     }
 
     private class LoadMoreTrigger implements AbsListView.OnScrollListener {
@@ -97,7 +104,7 @@ public class MeiZiCardsFragment extends Fragment {
         @Override
         public void onScroll(AbsListView absListView, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
             if (visibleItemCount > 0 && firstVisibleItem + visibleItemCount >= totalItemCount) {
-                streamLoader.loadNextPage();
+                cardsLoader.loadNextPage();
             }
         }
 
@@ -107,12 +114,17 @@ public class MeiZiCardsFragment extends Fragment {
         }
     }
 
-    private class PaginatedStreamLoader implements MeiZiCardsResponseHandler {
+    private abstract interface PaginatedLoader {
+        public void loadNextPage();
+    }
+
+    private class PaginatedStreamLoader implements PaginatedLoader, MeiZiCardsResponseHandler {
 
         private int lastPage = 0;
         private boolean loading = false;
         private boolean noMoreData = false;
 
+        @Override
         public void loadNextPage() {
             if (loading || noMoreData) {
                 return;
@@ -147,12 +159,13 @@ public class MeiZiCardsFragment extends Fragment {
         }
     }
 
-    private class PaginatedGirlOfTheDayLoader implements MeiZiCardsResponseHandler {
+    private class PaginatedGirlOfTheDayLoader implements PaginatedLoader, MeiZiCardsResponseHandler {
 
         private int lastPage = 0;
         private boolean loading = false;
         private boolean noMoreData = false;
 
+        @Override
         public void loadNextPage() {
             if (loading || noMoreData) {
                 return;

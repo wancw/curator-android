@@ -47,15 +47,15 @@ public class MainActivity extends ActionBarActivity implements ActionBar.OnNavig
     @Override
     public boolean onNavigationItemSelected(int position, long id) {
         Fragment fragment = new MeiZiCardsFragment();
-        Bundle args = new Bundle();
-            args.putInt(MeiZiCardsFragment.PARAM_SOURCE_TYPE,
+        Bundle arguments = new Bundle();
         if (position == 0) {
+            arguments.putInt(MeiZiCardsFragment.PARAM_SOURCE_TYPE,
                 MeiZiCardsFragment.SOURCE_STREAM);
         } else {
-            args.putInt(MeiZiCardsFragment.PARAM_SOURCE_TYPE,
+            arguments.putInt(MeiZiCardsFragment.PARAM_SOURCE_TYPE,
                 MeiZiCardsFragment.SOURCE_GIRL_OF_THE_DAY);
         }
-        fragment.setArguments(args);
+        fragment.setArguments(arguments);
 
         getSupportFragmentManager().beginTransaction()
             .replace(R.id.container, fragment)
