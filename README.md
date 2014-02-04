@@ -16,3 +16,5 @@ License
 -------
 Copyright (c) 2014 WanCW
 Licensed under the MIT license.
+
+[![Bitdeli Badge](https://d2weczhvl823v0.cloudfront.net/wancw/curator-android/trend.png)](https://bitdeli.com/free "Bitdeli Badge")
