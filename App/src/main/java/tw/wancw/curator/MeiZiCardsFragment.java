@@ -8,11 +8,11 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AbsListView;
 import android.widget.ListView;
+import android.widget.Toast;
 
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
-import com.nostra13.universalimageloader.core.assist.PauseOnScrollListener;
 
 import java.util.Collection;
 
@@ -22,7 +22,12 @@ import tw.wancw.curator.api.MeiZiCardsResponseHandler;
 import tw.wancw.curator.widget.MeiZiCardAdapter;
 import tw.wancw.widget.ListViewOnScrollListenerBroadcaster;
 
-public class StreamFragment extends Fragment {
+public class MeiZiCardsFragment extends Fragment {
+
+    public static final String PARAM_SOURCE_TYPE = "source_type";
+
+    public static final int SOURCE_STREAM = 1;
+    public static final int SOURCE_GIRL_OF_THE_DAY = 2;
 
     private static final CuratorApi api = new CuratorApi(BuildConfig.CURATOR_API_TOKEN);
 
@@ -32,9 +37,9 @@ public class StreamFragment extends Fragment {
     protected ListView cardsView;
     protected View loadingFooter;
 
-    protected PaginatedStreamLoader streamLoader = new PaginatedStreamLoader();
+    protected PaginatedLoader cardsLoader;
 
-    public StreamFragment() {
+    public MeiZiCardsFragment() {
         // Required empty public constructor
     }
 
@@ -59,7 +64,7 @@ public class StreamFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View rootView = inflater.inflate(R.layout.fragment_stream, container, false);
+        View rootView = inflater.inflate(R.layout.fragment_meizi_cards, container, false);
 
         loadingFooter = inflater.inflate(R.layout.view_load_more, null);
 
@@ -71,9 +76,17 @@ public class StreamFragment extends Fragment {
         cardsView.removeFooterView(loadingFooter);
 
         cardsView.setOnScrollListener(new ListViewOnScrollListenerBroadcaster(
-            new PauseOnScrollListener(loader, true, true),
+//            new PauseOnScrollListener(loader, true, true),
             new LoadMoreTrigger()
         ));
+
+        Bundle arguments = getArguments();
+        int sourceType = arguments.getInt(PARAM_SOURCE_TYPE);
+        if (sourceType == SOURCE_STREAM) {
+            cardsLoader = new PaginatedStreamLoader();
+        } else {
+            cardsLoader = new PaginatedGirlOfTheDayLoader();
+        }
 
         return rootView;
     }
@@ -81,7 +94,7 @@ public class StreamFragment extends Fragment {
     @Override
     public void onStart() {
         super.onStart();
-        streamLoader.loadNextPage();
+        cardsLoader.loadNextPage();
     }
 
     private class LoadMoreTrigger implements AbsListView.OnScrollListener {
@@ -91,7 +104,7 @@ public class StreamFragment extends Fragment {
         @Override
         public void onScroll(AbsListView absListView, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
             if (visibleItemCount > 0 && firstVisibleItem + visibleItemCount >= totalItemCount) {
-                streamLoader.loadNextPage();
+                cardsLoader.loadNextPage();
             }
         }
 
@@ -101,12 +114,17 @@ public class StreamFragment extends Fragment {
         }
     }
 
-    private class PaginatedStreamLoader implements MeiZiCardsResponseHandler {
+    private abstract interface PaginatedLoader {
+        public void loadNextPage();
+    }
+
+    private class PaginatedStreamLoader implements PaginatedLoader, MeiZiCardsResponseHandler {
 
         private int lastPage = 0;
         private boolean loading = false;
         private boolean noMoreData = false;
 
+        @Override
         public void loadNextPage() {
             if (loading || noMoreData) {
                 return;
@@ -131,6 +149,54 @@ public class StreamFragment extends Fragment {
             cardsView.removeFooterView(loadingFooter);
 
             loading = false;
+        }
+
+        @Override
+        public void OnFailure(String message) {
+            cardsView.removeFooterView(loadingFooter);
+            loading = false;
+            Toast.makeText(getActivity(), "Error: " + message, Toast.LENGTH_LONG).show();
+        }
+    }
+
+    private class PaginatedGirlOfTheDayLoader implements PaginatedLoader, MeiZiCardsResponseHandler {
+
+        private int lastPage = 0;
+        private boolean loading = false;
+        private boolean noMoreData = false;
+
+        @Override
+        public void loadNextPage() {
+            if (loading || noMoreData) {
+                return;
+            }
+
+            loading = true;
+
+            cardsView.addFooterView(loadingFooter);
+
+            lastPage = lastPage + 1;
+            api.girlOfTheDay(lastPage, this);
+        }
+
+        @Override
+        public void onSuccess(Collection<MeiZiCard> cards) {
+            if (cards.size() > 0) {
+                adapter.add(cards);
+            } else {
+                noMoreData = true;
+            }
+
+            cardsView.removeFooterView(loadingFooter);
+
+            loading = false;
+        }
+
+        @Override
+        public void OnFailure(String message) {
+            cardsView.removeFooterView(loadingFooter);
+            loading = false;
+            Toast.makeText(getActivity(), "Error: " + message, Toast.LENGTH_LONG).show();
         }
     }
 }

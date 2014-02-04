@@ -4,4 +4,5 @@ import java.util.Collection;
 
 public interface MeiZiCardsResponseHandler {
     public void onSuccess(Collection<MeiZiCard> cards);
+    public void OnFailure(String message);
 }

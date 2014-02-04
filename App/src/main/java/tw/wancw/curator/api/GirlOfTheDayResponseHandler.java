@@ -12,11 +12,11 @@ import org.json.JSONObject;
 import java.util.Arrays;
 import java.util.Collections;
 
-class StreamResponseHandler extends JsonHttpResponseHandler {
+class GirlOfTheDayResponseHandler extends JsonHttpResponseHandler {
 
     private final MeiZiCardsResponseHandler handler;
 
-    StreamResponseHandler(MeiZiCardsResponseHandler handler) {
+    GirlOfTheDayResponseHandler(MeiZiCardsResponseHandler handler) {
         if (handler == null) {
             throw new IllegalArgumentException("handler can't be null.");
         }
@@ -26,7 +26,7 @@ class StreamResponseHandler extends JsonHttpResponseHandler {
 
     @Override
     public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
-        Log.d("Curator/API/Stream", "success (object)");
+        Log.d("Curator/API/GirlOfTheDay", "success (object)");
         try {
             JSONArray results = response.getJSONArray("results");
 
@@ -34,7 +34,9 @@ class StreamResponseHandler extends JsonHttpResponseHandler {
             final MeiZiCard[] cards = new MeiZiCard[resultsLength];
             for (int i = 0; i < resultsLength; ++i) {
                 JSONObject result = results.getJSONObject(i);
-                cards[i] = new MeiZiCard(result.getString("name"), result.getString("image"));
+                cards[i] = new MeiZiCard(
+                    result.getString("date") + ' ' + result.getString("name"),
+                    result.getString("image"));
             }
 
             handler.onSuccess(Collections.unmodifiableList(Arrays.asList(cards)));
@@ -45,14 +47,14 @@ class StreamResponseHandler extends JsonHttpResponseHandler {
 
     @Override
     public void onSuccess(int statusCode, Header[] headers, JSONArray response) {
-        Log.d("Curator/API/Stream", "success (array)");
+        Log.d("Curator/API/GirlOfTheDay", "success (array)");
 
         handler.OnFailure("Invalid response");
     }
 
     @Override
     public void onFailure(int statusCode, Header[] headers, Throwable e, JSONObject errorResponse) {
-        Log.d("Curator/API/Stream", "failure (object)\n" +
+        Log.d("Curator/API/GirlOfTheDay", "failure (object)\n" +
             "Status Code: " + statusCode + "\n" +
             "Exception: " + e
         );
@@ -62,7 +64,7 @@ class StreamResponseHandler extends JsonHttpResponseHandler {
 
     @Override
     public void onFailure(int statusCode, Header[] headers, Throwable e, JSONArray errorResponse) {
-        Log.d("Curator/API/Stream", "failure (array)" +
+        Log.d("Curator/API/GirlOfTheDay", "failure (array)" +
             "Status Code: " + statusCode + "\n" +
             "Exception: " + e
         );
@@ -72,7 +74,7 @@ class StreamResponseHandler extends JsonHttpResponseHandler {
 
     @Override
     public void onFailure(int statusCode, Header[] headers, Throwable e, String errorResponse) {
-        Log.d("Curator/API/Stream", "failure (string)" +
+        Log.d("Curator/API/GirlOfTheDay", "failure (string)" +
             "Status Code: " + statusCode + "\n" +
             "Exception: " + e
         );
