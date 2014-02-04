@@ -9,6 +9,7 @@ android {
         targetSdkVersion 18
         versionCode 1
         versionName "0.1.0"
+        buildConfigField "String", "CURATOR_API_TOKEN", '"' + property('curator.api.token') + '"'
     }
     buildTypes {
         release {
