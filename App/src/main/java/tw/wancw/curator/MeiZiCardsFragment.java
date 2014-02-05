@@ -69,7 +69,6 @@ public class MeiZiCardsFragment extends Fragment {
         loadingFooter = inflater.inflate(R.layout.view_load_more, null);
 
         cardsView = (ListView) rootView.findViewById(R.id.cards);
-        cardsView.setEmptyView(rootView.findViewById(android.R.id.empty));
 
         cardsView.addFooterView(loadingFooter);
         cardsView.setAdapter(adapter);
