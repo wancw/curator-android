@@ -35,7 +35,6 @@ public class MeiZiCardsFragment extends Fragment {
 
     protected MeiZiCardAdapter adapter;
     protected ListView cardsView;
-    protected View loadingFooter;
 
     protected PaginatedLoader cardsLoader;
 
@@ -66,13 +65,10 @@ public class MeiZiCardsFragment extends Fragment {
                              Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragment_meizi_cards, container, false);
 
-        loadingFooter = inflater.inflate(R.layout.view_load_more, null);
 
         cardsView = (ListView) rootView.findViewById(R.id.cards);
 
-        cardsView.addFooterView(loadingFooter);
         cardsView.setAdapter(adapter);
-        cardsView.removeFooterView(loadingFooter);
 
         cardsView.setOnScrollListener(new ListViewOnScrollListenerBroadcaster(
 //            new PauseOnScrollListener(loader, true, true),
@@ -131,7 +127,6 @@ public class MeiZiCardsFragment extends Fragment {
 
             loading = true;
 
-            cardsView.addFooterView(loadingFooter);
 
             lastPage = lastPage + 1;
             api.stream(lastPage, this);
@@ -145,14 +140,12 @@ public class MeiZiCardsFragment extends Fragment {
                 noMoreData = true;
             }
 
-            cardsView.removeFooterView(loadingFooter);
 
             loading = false;
         }
 
         @Override
         public void OnFailure(String message) {
-            cardsView.removeFooterView(loadingFooter);
             loading = false;
             Toast.makeText(getActivity(), "Error: " + message, Toast.LENGTH_LONG).show();
         }
@@ -172,7 +165,6 @@ public class MeiZiCardsFragment extends Fragment {
 
             loading = true;
 
-            cardsView.addFooterView(loadingFooter);
 
             lastPage = lastPage + 1;
             api.girlOfTheDay(lastPage, this);
@@ -186,14 +178,12 @@ public class MeiZiCardsFragment extends Fragment {
                 noMoreData = true;
             }
 
-            cardsView.removeFooterView(loadingFooter);
 
             loading = false;
         }
 
         @Override
         public void OnFailure(String message) {
-            cardsView.removeFooterView(loadingFooter);
             loading = false;
             Toast.makeText(getActivity(), "Error: " + message, Toast.LENGTH_LONG).show();
         }
