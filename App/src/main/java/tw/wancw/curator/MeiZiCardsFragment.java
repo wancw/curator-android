@@ -7,7 +7,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AbsListView;
-import android.widget.ListView;
+import android.widget.GridView;
 import android.widget.Toast;
 
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
@@ -34,7 +34,7 @@ public class MeiZiCardsFragment extends Fragment {
     private ImageLoader loader;
 
     protected MeiZiCardAdapter adapter;
-    protected ListView cardsView;
+    protected GridView cardsView;
     protected View loadingIndicator;
 
     protected PaginatedLoader cardsLoader;
@@ -68,10 +68,8 @@ public class MeiZiCardsFragment extends Fragment {
 
         loadingIndicator = rootView.findViewById(R.id.loading_indicator);
 
-        cardsView = (ListView) rootView.findViewById(R.id.cards);
-
+        cardsView = (GridView) rootView.findViewById(R.id.cards);
         cardsView.setAdapter(adapter);
-
         cardsView.setOnScrollListener(new ListViewOnScrollListenerBroadcaster(
 //            new PauseOnScrollListener(loader, true, true),
             new LoadMoreTrigger()
@@ -94,8 +92,8 @@ public class MeiZiCardsFragment extends Fragment {
         cardsLoader.loadNextPage();
     }
 
-    private class LoadMoreTrigger implements AbsListView.OnScrollListener {
 
+    private class LoadMoreTrigger implements AbsListView.OnScrollListener {
 
         @Override
         public void onScroll(AbsListView absListView, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
