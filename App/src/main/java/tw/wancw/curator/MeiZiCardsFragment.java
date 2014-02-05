@@ -91,13 +91,19 @@ public class MeiZiCardsFragment extends Fragment {
     @Override
     public void onStart() {
         super.onStart();
+        updateLayout();
         cardsLoader.loadNextPage();
     }
 
     @Override
     public void onConfigurationChanged(Configuration newConfig) {
         super.onConfigurationChanged(newConfig);
-        if (newConfig.orientation == Configuration.ORIENTATION_LANDSCAPE) {
+        updateLayout();
+    }
+
+    private void updateLayout() {
+        Configuration config = getResources().getConfiguration();
+        if (config.orientation == Configuration.ORIENTATION_LANDSCAPE) {
             cardsView.setNumColumns(3);
         } else {
             cardsView.setNumColumns(2);
