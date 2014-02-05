@@ -35,6 +35,7 @@ public class MeiZiCardsFragment extends Fragment {
 
     protected MeiZiCardAdapter adapter;
     protected ListView cardsView;
+    protected View loadingIndicator;
 
     protected PaginatedLoader cardsLoader;
 
@@ -65,6 +66,7 @@ public class MeiZiCardsFragment extends Fragment {
                              Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragment_meizi_cards, container, false);
 
+        loadingIndicator = rootView.findViewById(R.id.loading_indicator);
 
         cardsView = (ListView) rootView.findViewById(R.id.cards);
 
@@ -127,6 +129,7 @@ public class MeiZiCardsFragment extends Fragment {
 
             loading = true;
 
+            loadingIndicator.setVisibility(View.VISIBLE);
 
             lastPage = lastPage + 1;
             api.stream(lastPage, this);
@@ -140,12 +143,14 @@ public class MeiZiCardsFragment extends Fragment {
                 noMoreData = true;
             }
 
+            loadingIndicator.setVisibility(View.GONE);
 
             loading = false;
         }
 
         @Override
         public void OnFailure(String message) {
+            loadingIndicator.setVisibility(View.GONE);
             loading = false;
             Toast.makeText(getActivity(), "Error: " + message, Toast.LENGTH_LONG).show();
         }
@@ -165,6 +170,7 @@ public class MeiZiCardsFragment extends Fragment {
 
             loading = true;
 
+            loadingIndicator.setVisibility(View.VISIBLE);
 
             lastPage = lastPage + 1;
             api.girlOfTheDay(lastPage, this);
@@ -178,12 +184,14 @@ public class MeiZiCardsFragment extends Fragment {
                 noMoreData = true;
             }
 
+            loadingIndicator.setVisibility(View.GONE);
 
             loading = false;
         }
 
         @Override
         public void OnFailure(String message) {
+            loadingIndicator.setVisibility(View.GONE);
             loading = false;
             Toast.makeText(getActivity(), "Error: " + message, Toast.LENGTH_LONG).show();
         }
