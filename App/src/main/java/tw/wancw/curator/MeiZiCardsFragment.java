@@ -108,12 +108,16 @@ public class MeiZiCardsFragment extends Fragment {
     }
 
     private void updateLayout() {
+        int index = cardsView.getFirstVisiblePosition();
+
         Configuration config = getResources().getConfiguration();
         if (config.orientation == Configuration.ORIENTATION_LANDSCAPE) {
             cardsView.setNumColumns(3);
         } else {
             cardsView.setNumColumns(2);
         }
+
+        cardsView.setSelection(index);
     }
 
     private class LoadMoreTrigger implements AbsListView.OnScrollListener {
