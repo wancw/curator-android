@@ -1,6 +1,7 @@
 package tw.wancw.curator;
 
 import android.app.Activity;
+import android.content.res.Configuration;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
@@ -93,6 +94,15 @@ public class MeiZiCardsFragment extends Fragment {
         cardsLoader.loadNextPage();
     }
 
+    @Override
+    public void onConfigurationChanged(Configuration newConfig) {
+        super.onConfigurationChanged(newConfig);
+        if (newConfig.orientation == Configuration.ORIENTATION_LANDSCAPE) {
+            cardsView.setNumColumns(3);
+        } else {
+            cardsView.setNumColumns(2);
+        }
+    }
 
     private class LoadMoreTrigger implements AbsListView.OnScrollListener {
 
