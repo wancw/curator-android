@@ -1,18 +1,20 @@
 package tw.wancw.curator;
 
 import android.app.Activity;
+import android.content.res.Configuration;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AbsListView;
-import android.widget.ListView;
+import android.widget.GridView;
 import android.widget.Toast;
 
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
+import com.nostra13.universalimageloader.core.assist.PauseOnScrollListener;
 
 import java.util.Collection;
 
@@ -34,8 +36,8 @@ public class MeiZiCardsFragment extends Fragment {
     private ImageLoader loader;
 
     protected MeiZiCardAdapter adapter;
-    protected ListView cardsView;
-    protected View loadingFooter;
+    protected GridView cardsView;
+    protected View loadingIndicator;
 
     protected PaginatedLoader cardsLoader;
 
@@ -66,17 +68,12 @@ public class MeiZiCardsFragment extends Fragment {
                              Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragment_meizi_cards, container, false);
 
-        loadingFooter = inflater.inflate(R.layout.view_load_more, null);
+        loadingIndicator = rootView.findViewById(R.id.loading_indicator);
 
-        cardsView = (ListView) rootView.findViewById(R.id.cards);
-        cardsView.setEmptyView(rootView.findViewById(android.R.id.empty));
-
-        cardsView.addFooterView(loadingFooter);
+        cardsView = (GridView) rootView.findViewById(R.id.cards);
         cardsView.setAdapter(adapter);
-        cardsView.removeFooterView(loadingFooter);
-
         cardsView.setOnScrollListener(new ListViewOnScrollListenerBroadcaster(
-//            new PauseOnScrollListener(loader, true, true),
+            new PauseOnScrollListener(loader, true, true),
             new LoadMoreTrigger()
         ));
 
@@ -94,16 +91,30 @@ public class MeiZiCardsFragment extends Fragment {
     @Override
     public void onStart() {
         super.onStart();
+        updateLayout();
         cardsLoader.loadNextPage();
+    }
+
+    @Override
+    public void onConfigurationChanged(Configuration newConfig) {
+        super.onConfigurationChanged(newConfig);
+        updateLayout();
+    }
+
+    private void updateLayout() {
+        Configuration config = getResources().getConfiguration();
+        if (config.orientation == Configuration.ORIENTATION_LANDSCAPE) {
+            cardsView.setNumColumns(3);
+        } else {
+            cardsView.setNumColumns(2);
+        }
     }
 
     private class LoadMoreTrigger implements AbsListView.OnScrollListener {
 
-        private boolean reachEnd = false;
-
         @Override
         public void onScroll(AbsListView absListView, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
-            if (visibleItemCount > 0 && firstVisibleItem + visibleItemCount >= totalItemCount) {
+            if (visibleItemCount > 0 && absListView.getLastVisiblePosition() + 1 == totalItemCount) {
                 cardsLoader.loadNextPage();
             }
         }
@@ -132,7 +143,7 @@ public class MeiZiCardsFragment extends Fragment {
 
             loading = true;
 
-            cardsView.addFooterView(loadingFooter);
+            loadingIndicator.setVisibility(View.VISIBLE);
 
             lastPage = lastPage + 1;
             api.stream(lastPage, this);
@@ -146,14 +157,14 @@ public class MeiZiCardsFragment extends Fragment {
                 noMoreData = true;
             }
 
-            cardsView.removeFooterView(loadingFooter);
+            loadingIndicator.setVisibility(View.GONE);
 
             loading = false;
         }
 
         @Override
         public void OnFailure(String message) {
-            cardsView.removeFooterView(loadingFooter);
+            loadingIndicator.setVisibility(View.GONE);
             loading = false;
             Toast.makeText(getActivity(), "Error: " + message, Toast.LENGTH_LONG).show();
         }
@@ -173,7 +184,7 @@ public class MeiZiCardsFragment extends Fragment {
 
             loading = true;
 
-            cardsView.addFooterView(loadingFooter);
+            loadingIndicator.setVisibility(View.VISIBLE);
 
             lastPage = lastPage + 1;
             api.girlOfTheDay(lastPage, this);
@@ -187,14 +198,14 @@ public class MeiZiCardsFragment extends Fragment {
                 noMoreData = true;
             }
 
-            cardsView.removeFooterView(loadingFooter);
+            loadingIndicator.setVisibility(View.GONE);
 
             loading = false;
         }
 
         @Override
         public void OnFailure(String message) {
-            cardsView.removeFooterView(loadingFooter);
+            loadingIndicator.setVisibility(View.GONE);
             loading = false;
             Toast.makeText(getActivity(), "Error: " + message, Toast.LENGTH_LONG).show();
         }

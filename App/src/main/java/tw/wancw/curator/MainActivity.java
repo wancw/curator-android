@@ -27,7 +27,6 @@ public class MainActivity extends ActionBarActivity implements ActionBar.OnNavig
         actionBar.setListNavigationCallbacks(adapter, this);
     }
 
-
     @Override
     public void onRestoreInstanceState(Bundle savedInstanceState) {
         // Restore the previously serialized current dropdown position.

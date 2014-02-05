@@ -27,7 +27,7 @@
         android:ellipsize="end"
         android:lines="1"
         android:singleLine="true"
-        android:textSize="24sp"
+        android:textSize="14sp"
         android:textColor="@android:color/white"
         android:background="#7F000000"
         tools:text="你好你好你好你好你好 你好你好你好你好你好你好你好你好"
