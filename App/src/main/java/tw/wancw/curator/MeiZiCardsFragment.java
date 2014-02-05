@@ -13,6 +13,7 @@ import android.widget.Toast;
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
+import com.nostra13.universalimageloader.core.assist.PauseOnScrollListener;
 
 import java.util.Collection;
 
@@ -71,7 +72,7 @@ public class MeiZiCardsFragment extends Fragment {
         cardsView = (GridView) rootView.findViewById(R.id.cards);
         cardsView.setAdapter(adapter);
         cardsView.setOnScrollListener(new ListViewOnScrollListenerBroadcaster(
-//            new PauseOnScrollListener(loader, true, true),
+            new PauseOnScrollListener(loader, true, true),
             new LoadMoreTrigger()
         ));
 
