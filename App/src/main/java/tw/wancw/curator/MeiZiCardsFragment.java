@@ -96,11 +96,10 @@ public class MeiZiCardsFragment extends Fragment {
 
     private class LoadMoreTrigger implements AbsListView.OnScrollListener {
 
-        private boolean reachEnd = false;
 
         @Override
         public void onScroll(AbsListView absListView, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
-            if (visibleItemCount > 0 && firstVisibleItem + visibleItemCount >= totalItemCount) {
+            if (visibleItemCount > 0 && absListView.getLastVisiblePosition() + 1 == totalItemCount) {
                 cardsLoader.loadNextPage();
             }
         }
