@@ -11,11 +11,14 @@ import android.widget.AbsListView;
 import android.widget.GridView;
 import android.widget.Toast;
 
+import com.nostra13.universalimageloader.cache.disc.impl.FileCountLimitedDiscCache;
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
 import com.nostra13.universalimageloader.core.assist.PauseOnScrollListener;
+import com.nostra13.universalimageloader.utils.StorageUtils;
 
+import java.io.File;
 import java.util.Collection;
 
 import tw.wancw.curator.api.CuratorApi;
@@ -51,10 +54,13 @@ public class MeiZiCardsFragment extends Fragment {
 
         DisplayImageOptions displayImageOptions = new DisplayImageOptions.Builder()
             .cacheInMemory(true)
+            .cacheOnDisc(true)
             .build();
 
+        File cacheDir = StorageUtils.getCacheDirectory(activity);
         ImageLoaderConfiguration imageLoaderConfig = new ImageLoaderConfiguration.Builder(activity)
             .defaultDisplayImageOptions(displayImageOptions)
+            .discCache(new FileCountLimitedDiscCache(cacheDir, 250))
             .build();
 
         loader = ImageLoader.getInstance();
@@ -102,12 +108,16 @@ public class MeiZiCardsFragment extends Fragment {
     }
 
     private void updateLayout() {
+        int index = cardsView.getFirstVisiblePosition();
+
         Configuration config = getResources().getConfiguration();
         if (config.orientation == Configuration.ORIENTATION_LANDSCAPE) {
             cardsView.setNumColumns(3);
         } else {
             cardsView.setNumColumns(2);
         }
+
+        cardsView.setSelection(index);
     }
 
     private class LoadMoreTrigger implements AbsListView.OnScrollListener {
