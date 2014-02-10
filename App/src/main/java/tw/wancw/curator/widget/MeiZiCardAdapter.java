@@ -37,7 +37,7 @@ public class MeiZiCardAdapter extends BaseAdapter {
     }
 
     @Override
-    public Object getItem(int i) {
+    public MeiZiCard getItem(int i) {
         return cards.get(i);
     }
 
@@ -62,7 +62,7 @@ public class MeiZiCardAdapter extends BaseAdapter {
             holder = (MeiZiCardAdapter.ViewHolder) view.getTag();
         }
 
-        MeiZiCard card = (MeiZiCard) getItem(i);
+        MeiZiCard card = getItem(i);
 
         holder.cardImage.setVisibility(View.INVISIBLE);
         loader.cancelDisplayTask(holder.cardImage);
