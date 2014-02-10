@@ -20,8 +20,6 @@ public class MeiZiCardDetailActivity extends Activity {
     public static final String PARAM_TITLE = "title";
     public static final String PARAM_IMAGE_URL = "image_url";
 
-    private ImageLoader imageLoader;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -41,7 +39,7 @@ public class MeiZiCardDetailActivity extends Activity {
             .discCache(new FileCountLimitedDiscCache(cacheDir, 250))
             .build();
 
-        imageLoader = ImageLoader.getInstance();
+        ImageLoader imageLoader = ImageLoader.getInstance();
         imageLoader.init(imageLoaderConfig);
 
         String title= getIntent().getExtras().getString(PARAM_TITLE);
