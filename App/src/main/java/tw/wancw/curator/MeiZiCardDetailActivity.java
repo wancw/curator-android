@@ -4,7 +4,6 @@ import android.annotation.TargetApi;
 import android.app.Activity;
 import android.os.Build;
 import android.os.Bundle;
-import android.support.v4.app.NavUtils;
 import android.view.MenuItem;
 import android.widget.ImageView;
 
@@ -26,6 +25,8 @@ public class MeiZiCardDetailActivity extends Activity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        setUpActionBar();
 
         setContentView(R.layout.activity_meizi_card_detail);
 
@@ -49,6 +50,23 @@ public class MeiZiCardDetailActivity extends Activity {
         String imageUrl = getIntent().getExtras().getString(PARAM_IMAGE_URL);
         ImageView imageView = (ImageView) findViewById(R.id.card_image);
         imageLoader.displayImage(imageUrl, imageView);
+    }
+
+    @TargetApi(Build.VERSION_CODES.HONEYCOMB)
+    private void setUpActionBar() {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB) {
+            getActionBar().setDisplayHomeAsUpEnabled(true);
+        }
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        int id = item.getItemId();
+        if (id == android.R.id.home) {
+            finish(); // NavUtils.navigateUpFromSameTask(this);
+            return true;
+        }
+        return super.onOptionsItemSelected(item);
     }
 
 }
