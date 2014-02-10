@@ -46,8 +46,16 @@ public class MeiZiCardsFragment extends Fragment implements GridView.OnItemClick
 
     protected PaginatedLoader cardsLoader;
 
+    private boolean firstRun = true;
+
     public MeiZiCardsFragment() {
         // Required empty public constructor
+    }
+
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        firstRun = true;
     }
 
     @Override
@@ -101,7 +109,10 @@ public class MeiZiCardsFragment extends Fragment implements GridView.OnItemClick
     public void onStart() {
         super.onStart();
         updateLayout();
-        cardsLoader.loadNextPage();
+        if (firstRun) {
+            cardsLoader.loadNextPage();
+            firstRun = false;
+        }
     }
 
     @Override
