@@ -22,12 +22,12 @@ import tw.wancw.curator.api.MeiZiCard;
 public class MeiZiCardAdapter extends BaseAdapter {
 
     private final Context context;
-    private final ImageLoader loader;
+    private final ImageLoader imageLoader;
     private final List<MeiZiCard> cards;
 
-    public MeiZiCardAdapter(Context context, ImageLoader loader) {
+    public MeiZiCardAdapter(Context context, ImageLoader imageLoader) {
         this.context = context;
-        this.loader = loader;
+        this.imageLoader = imageLoader;
         this.cards = new ArrayList<MeiZiCard>();
     }
 
@@ -65,8 +65,8 @@ public class MeiZiCardAdapter extends BaseAdapter {
         MeiZiCard card = getItem(i);
 
         holder.cardImage.setVisibility(View.INVISIBLE);
-        loader.cancelDisplayTask(holder.cardImage);
-        loader.displayImage(card.getThumbnail().getUrl(), holder.cardImage,
+        imageLoader.cancelDisplayTask(holder.cardImage);
+        imageLoader.displayImage(card.getThumbnail().getUrl(), holder.cardImage,
             new SimpleImageLoadingListener() {
                 @Override
                 public void onLoadingComplete(String imageUri, View view, Bitmap loadedImage) {
