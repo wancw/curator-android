@@ -66,12 +66,14 @@ public class MeiZiCardAdapter extends BaseAdapter {
 
         holder.cardImage.setVisibility(View.INVISIBLE);
         loader.cancelDisplayTask(holder.cardImage);
-        loader.displayImage(card.getImageUrl(), holder.cardImage, new SimpleImageLoadingListener() {
-            @Override
-            public void onLoadingComplete(String imageUri, View view, Bitmap loadedImage) {
-                view.setVisibility(View.VISIBLE);
+        loader.displayImage(card.getThumbnail().getUrl(), holder.cardImage,
+            new SimpleImageLoadingListener() {
+                @Override
+                public void onLoadingComplete(String imageUri, View view, Bitmap loadedImage) {
+                    view.setVisibility(View.VISIBLE);
+                }
             }
-        });
+        );
 
         holder.cardCaption.setText(card.getCaption());
 
