@@ -2,18 +2,24 @@ package tw.wancw.curator.api;
 
 public class MeiZiCard {
     private final String caption;
-    private final String imageUrl;
+    private final MeiZiImage image;
+    private final MeiZiImage thumbnail;
 
-    public MeiZiCard(String caption, String imageUrl) {
+    public MeiZiCard(String caption, MeiZiImage image, MeiZiImage thumbnail) {
         this.caption = caption;
-        this.imageUrl = imageUrl;
+        this.image = image;
+        this.thumbnail = thumbnail;
     }
 
     public String getCaption() {
         return caption;
     }
 
-    public String getImageUrl() {
-        return imageUrl;
+    public MeiZiImage getImage() {
+        return image;
+    }
+
+    public MeiZiImage getThumbnail() {
+        return thumbnail;
     }
 }

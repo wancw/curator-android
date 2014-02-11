@@ -7,7 +7,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
-import android.widget.TextView;
 
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.assist.SimpleImageLoadingListener;
@@ -22,12 +21,12 @@ import tw.wancw.curator.api.MeiZiCard;
 public class MeiZiCardAdapter extends BaseAdapter {
 
     private final Context context;
-    private final ImageLoader loader;
+    private final ImageLoader imageLoader;
     private final List<MeiZiCard> cards;
 
-    public MeiZiCardAdapter(Context context, ImageLoader loader) {
+    public MeiZiCardAdapter(Context context, ImageLoader imageLoader) {
         this.context = context;
-        this.loader = loader;
+        this.imageLoader = imageLoader;
         this.cards = new ArrayList<MeiZiCard>();
     }
 
@@ -37,7 +36,7 @@ public class MeiZiCardAdapter extends BaseAdapter {
     }
 
     @Override
-    public Object getItem(int i) {
+    public MeiZiCard getItem(int i) {
         return cards.get(i);
     }
 
@@ -55,25 +54,24 @@ public class MeiZiCardAdapter extends BaseAdapter {
 
             holder = new MeiZiCardAdapter.ViewHolder();
             holder.cardImage = (ImageView) view.findViewById(R.id.card_image);
-            holder.cardCaption = (TextView) view.findViewById(R.id.card_caption);
 
             view.setTag(holder);
         } else {
             holder = (MeiZiCardAdapter.ViewHolder) view.getTag();
         }
 
-        MeiZiCard card = (MeiZiCard) getItem(i);
+        MeiZiCard card = getItem(i);
 
         holder.cardImage.setVisibility(View.INVISIBLE);
-        loader.cancelDisplayTask(holder.cardImage);
-        loader.displayImage(card.getImageUrl(), holder.cardImage, new SimpleImageLoadingListener() {
-            @Override
-            public void onLoadingComplete(String imageUri, View view, Bitmap loadedImage) {
-                view.setVisibility(View.VISIBLE);
+        imageLoader.cancelDisplayTask(holder.cardImage);
+        imageLoader.displayImage(card.getThumbnail().getUrl(), holder.cardImage,
+            new SimpleImageLoadingListener() {
+                @Override
+                public void onLoadingComplete(String imageUri, View view, Bitmap loadedImage) {
+                    view.setVisibility(View.VISIBLE);
+                }
             }
-        });
-
-        holder.cardCaption.setText(card.getCaption());
+        );
 
         return view;
     }
@@ -85,6 +83,5 @@ public class MeiZiCardAdapter extends BaseAdapter {
 
     private class ViewHolder {
         ImageView cardImage;
-        TextView cardCaption;
     }
 }

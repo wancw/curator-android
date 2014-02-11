@@ -34,9 +34,12 @@ class GirlOfTheDayResponseHandler extends JsonHttpResponseHandler {
             final MeiZiCard[] cards = new MeiZiCard[resultsLength];
             for (int i = 0; i < resultsLength; ++i) {
                 JSONObject result = results.getJSONObject(i);
-                cards[i] = new MeiZiCard(
-                    result.getString("date") + ' ' + result.getString("name"),
-                    result.getString("image"));
+                MeiZiImage image = new MeiZiImage(result.getString("image"),
+                    result.getInt("width"), result.getInt("height"));
+                MeiZiImage thumbnail = new MeiZiImage(result.getString("thumbnail"),
+                    result.getInt("thumbnail_width"), result.getInt("thumbnail_height"));
+                cards[i] = new MeiZiCard(result.getString("date") + ' ' + result.getString("name"),
+                    image, thumbnail);
             }
 
             handler.onSuccess(Collections.unmodifiableList(Arrays.asList(cards)));
