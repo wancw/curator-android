@@ -7,7 +7,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
-import android.widget.TextView;
 
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.assist.SimpleImageLoadingListener;
@@ -55,7 +54,6 @@ public class MeiZiCardAdapter extends BaseAdapter {
 
             holder = new MeiZiCardAdapter.ViewHolder();
             holder.cardImage = (ImageView) view.findViewById(R.id.card_image);
-            holder.cardCaption = (TextView) view.findViewById(R.id.card_caption);
 
             view.setTag(holder);
         } else {
@@ -75,8 +73,6 @@ public class MeiZiCardAdapter extends BaseAdapter {
             }
         );
 
-        holder.cardCaption.setText(card.getCaption());
-
         return view;
     }
 
@@ -87,6 +83,5 @@ public class MeiZiCardAdapter extends BaseAdapter {
 
     private class ViewHolder {
         ImageView cardImage;
-        TextView cardCaption;
     }
 }
