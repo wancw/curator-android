@@ -1,0 +1,16 @@
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@android:color/black"
+    tools:context="tw.wancw.curator.MeiZiCardDetailActivity"
+    tools:theme="@style/FullscreenTheme">
+
+    <ImageView android:id="@+id/card_image"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:gravity="center"
+        android:scaleType="fitCenter"
+        tools:src="@android:drawable/ic_menu_gallery"/>
+
+</FrameLayout>
